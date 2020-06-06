@@ -1,43 +1,58 @@
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import java.awt.event.*;
+
+import daos.TaiKhoanDAO;
 
 public class App {
+    private static JFrame frame = new JFrame("Quản lý sinh viên");
+    private static JTextField userText = new JTextField(20);
+    private static JPasswordField passText = new JPasswordField(20);
+
     public static void main(String[] args) throws Exception {
         System.out.println("Hello, World!");
-        // List<SinhVien> ds=SinhVienDAO.layDanhSachSinhVien();
-        // for(int i=0; i<ds.size(); i++){
-        //     SinhVien sv=ds.get(i);
-        //     System.out.println("MSSV: "+sv.getMa());
-        //     System.out.println("Họ và tên: "+sv.getTen());
-        //     System.out.println("Giới tính: " + sv.getGioiTinh());
-        //     System.out.println("CMND: "+ sv.getCMND()); 
-        // }
         // Creating instance of JFrame
-        JFrame frame = new JFrame("My First Swing Example");
         // Setting the width and height of frame
         frame.setSize(350, 200);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
 
-        /* Creating panel. This is same as a div tag in HTML
-         * We can create several panels and add them to specific 
-         * positions in a JFrame. Inside panels we can add text 
-         * fields, buttons and other components.
+        /*
+         * Creating panel. This is same as a div tag in HTML We can create several
+         * panels and add them to specific positions in a JFrame. Inside panels we can
+         * add text fields, buttons and other components.
          */
         JPanel panel = new JPanel();
         // adding panel to frame
         frame.add(panel);
-        /* calling user defined method for adding components
-         * to the panel.
+        /*
+         * calling user defined method for adding components to the panel.
          */
         placeComponents(panel);
 
         // Setting the frame visibility to true
         frame.setVisible(true);
     }
+
+    private static ActionListener button_Login_CLick = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String uCo = userText.getText();
+            String uPw = passText.getText();
+            String uc = TaiKhoanDAO.kiemTraTaiKhoan(uCo, uPw);
+            if (!uCo.equals(uc)) {
+                JOptionPane.showMessageDialog(null, "Tài khoản hoặc mật khẩu không đúng", "title", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                frame.dispose();
+                new DashBoard(uc);
+            }
+        }
+    };
 
     private static void placeComponents(JPanel panel) {
 
@@ -60,7 +75,6 @@ public class App {
         /*
          * Creating text field where user is supposed to enter user name.
          */
-        JTextField userText = new JTextField(20);
         userText.setBounds(100, 20, 165, 25);
         panel.add(userText);
 
@@ -73,13 +87,13 @@ public class App {
          * This is similar to text field but it hides the user entered data and displays
          * dots instead to protect the password like we normally see on login screens.
          */
-        JPasswordField passwordText = new JPasswordField(20);
-        passwordText.setBounds(100, 50, 165, 25);
-        panel.add(passwordText);
+        passText.setBounds(100, 50, 165, 25);
+        panel.add(passText);
 
         // Creating login button
         JButton loginButton = new JButton("login");
         loginButton.setBounds(10, 80, 80, 25);
+        loginButton.addActionListener(button_Login_CLick);
         panel.add(loginButton);
     }
 }
