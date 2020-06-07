@@ -6,7 +6,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class DashBoard {
+public class ManHinhChinh {
     private JFrame frame = new JFrame("Màn hình chính");
     private JPanel panel = new JPanel();
     private String uc = "";
@@ -21,7 +21,7 @@ public class DashBoard {
     // Creating Doi Mat Khau button
     private JButton changePassButton = new JButton("Đổi mật khẩu");
 
-    public DashBoard(String ucode) {
+    public ManHinhChinh(String ucode) {
         uc = ucode;
         // Setting the width and height of frame
         frame.setSize(500, 400);
@@ -32,7 +32,7 @@ public class DashBoard {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Sinh vien");
                 frame.dispose();
-                new DashBoard(uc);
+                new ManHinhChinh(uc);
             }
         };
         ActionListener button_Class_CLick = new ActionListener() {
@@ -40,7 +40,7 @@ public class DashBoard {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Lop");
                 frame.dispose();
-                new DashBoard(uc);
+                new ManHinhChinh(uc);
             }
         };
         ActionListener button_Subject_CLick = new ActionListener() {
@@ -48,7 +48,7 @@ public class DashBoard {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Mon hoc");
                 frame.dispose();
-                new DashBoard(uc);
+                new ManHinhChinh(uc);
             }
         };
         ActionListener button_Logout_CLick = new ActionListener() {
@@ -56,14 +56,14 @@ public class DashBoard {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Đăng xuất");
                 frame.dispose();
-                new Login();
+                new ManHinhDangNhap();
             }
         };
         ActionListener button_ChangePass_CLick = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Đổi mật khẩu");
-                new ChangePass(uc);
+                new ManHinhDoiMatKhau(uc);
             }
         };
 

@@ -6,13 +6,12 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 import java.awt.event.*;
 
 import daos.TaiKhoanDAO;
 
 
-public class ChangePass {
+public class ManHinhDoiMatKhau {
     private JFrame frame = new JFrame("Đổi mật khẩu");
     private JPasswordField oldPassText = new JPasswordField(20);
     private JPasswordField newPassText = new JPasswordField(20);
@@ -50,7 +49,7 @@ public class ChangePass {
         }
     };
 
-    public ChangePass(String uc){
+    public ManHinhDoiMatKhau(String uc){
         this.uCode = uc;
         System.out.println("Hello, World!");
         // Creating instance of JFrame
@@ -86,21 +85,21 @@ public class ChangePass {
 
         // Creating JLabel
         JLabel oldPaLabel = new JLabel("Mật khẩu cũ");
-        oldPaLabel.setBounds(10, 20, 100, 25);
+        oldPaLabel.setBounds(10, 20, 120, 25);
         panel.add(oldPaLabel);
 
         oldPassText.setBounds(100, 20, 165, 25);
         panel.add(oldPassText);
 
         JLabel newPaLabel = new JLabel("Mật khẩu mới");
-        newPaLabel.setBounds(10, 50, 100, 25);
+        newPaLabel.setBounds(10, 50, 120, 25);
         panel.add(newPaLabel);
 
         newPassText.setBounds(100, 50, 165, 25);
         panel.add(newPassText);
 
         JLabel confirmPaLabel = new JLabel("Xác nhận mật khẩu");
-        confirmPaLabel.setBounds(10, 80, 100, 25);
+        confirmPaLabel.setBounds(10, 80, 120, 25);
         panel.add(confirmPaLabel);
 
         confirmPassText.setBounds(100, 80, 165, 25);

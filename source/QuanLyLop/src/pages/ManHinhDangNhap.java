@@ -10,7 +10,7 @@ import javax.swing.JTextField;
 import java.awt.event.*;
 
 import daos.TaiKhoanDAO;
-public class Login {
+public class ManHinhDangNhap {
     private JFrame frame = new JFrame("Quản lý sinh viên");
     private JTextField userText = new JTextField(20);
     private JPasswordField passText = new JPasswordField(20);
@@ -25,12 +25,12 @@ public class Login {
                 JOptionPane.showMessageDialog(null, "Tài khoản hoặc mật khẩu không đúng", "title", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 frame.dispose();
-                new DashBoard(uc);
+                new ManHinhChinh(uc);
             }
         }
     };
 
-    public Login(){
+    public ManHinhDangNhap(){
         System.out.println("Hello, World!");
         // Creating instance of JFrame
         // Setting the width and height of frame

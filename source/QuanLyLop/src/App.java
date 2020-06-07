@@ -1,7 +1,7 @@
-import pages.Login;
+import pages.ManHinhDangNhap;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        new Login();
+        new ManHinhDangNhap();
     }
 }
