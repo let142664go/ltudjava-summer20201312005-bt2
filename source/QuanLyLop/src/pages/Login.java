@@ -1,3 +1,5 @@
+package pages;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -12,7 +14,6 @@ public class Login {
     private JFrame frame = new JFrame("Quản lý sinh viên");
     private JTextField userText = new JTextField(20);
     private JPasswordField passText = new JPasswordField(20);
-
 
     private ActionListener button_Login_CLick = new ActionListener() {
         @Override
@@ -29,7 +30,7 @@ public class Login {
         }
     };
 
-    Login(){
+    public Login(){
         System.out.println("Hello, World!");
         // Creating instance of JFrame
         // Setting the width and height of frame
@@ -53,6 +54,7 @@ public class Login {
         // Setting the frame visibility to true
         frame.setVisible(true);
     }
+
     private void placeComponents(JPanel panel) {
 
         /*
@@ -94,6 +96,5 @@ public class Login {
         loginButton.setBounds(10, 80, 80, 25);
         loginButton.addActionListener(button_Login_CLick);
         panel.add(loginButton);
-    }
-    
+    }    
 }

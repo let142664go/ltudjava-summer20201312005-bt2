@@ -1,3 +1,5 @@
+package pages;
+
 import java.awt.event.*;
 
 import javax.swing.JButton;
@@ -16,8 +18,10 @@ public class DashBoard {
     private JButton subjectButton = new JButton("Môn học");
     // Creating Dang Xuat button
     private JButton logoutButton = new JButton("Đăng xuất");
+    // Creating Doi Mat Khau button
+    private JButton changePassButton = new JButton("Đổi mật khẩu");
 
-    DashBoard(String ucode) {
+    public DashBoard(String ucode) {
         uc = ucode;
         // Setting the width and height of frame
         frame.setSize(500, 400);
@@ -50,9 +54,16 @@ public class DashBoard {
         ActionListener button_Logout_CLick = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Mon hoc");
+                System.out.println("Đăng xuất");
                 frame.dispose();
                 new Login();
+            }
+        };
+        ActionListener button_ChangePass_CLick = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Đổi mật khẩu");
+                new ChangePass(uc);
             }
         };
 
@@ -71,6 +82,10 @@ public class DashBoard {
         logoutButton.setBounds(100, 120, 80, 25);
         logoutButton.addActionListener(button_Logout_CLick);
         panel.add(logoutButton);
+
+        changePassButton.setBounds(130, 120, 80, 25);
+        changePassButton.addActionListener(button_ChangePass_CLick);
+        panel.add(changePassButton);
 
         frame.add(panel);
         frame.setVisible(true);
