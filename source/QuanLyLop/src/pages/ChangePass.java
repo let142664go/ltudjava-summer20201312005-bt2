@@ -26,23 +26,24 @@ public class ChangePass {
             String newPw = newPassText.getText();
             String cofPw = confirmPassText.getText();
             if (newPw.isBlank() || newPw.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Vui lòng nhập mật khẩu mới!!!", "title", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Vui lòng nhập mật khẩu mới!!!", "Thông tin lỗi", JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
             if (!newPw.equals(cofPw)) {
-                JOptionPane.showMessageDialog(null, "Mật khẩu mới không khớp!!!", "title", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Mật khẩu mới không khớp!!!", "Thông tin lỗi", JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
             String uc = TaiKhoanDAO.kiemTraTaiKhoan(uCode, oldPw);
             if (!uCode.equals(uc)) {
-                JOptionPane.showMessageDialog(null, "Mật khẩu cũ không đúng!!!", "title", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Mật khẩu cũ không đúng!!!", "Thông tin lỗi", JOptionPane.INFORMATION_MESSAGE);
                 return;
             } else {
                 boolean rs = TaiKhoanDAO.capNhatMatKhau(uCode, newPw);
                 if (rs) {
+                    JOptionPane.showMessageDialog(null, "Cập nhật thành công!!!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                     frame.dispose();
                 } else {
-                    JOptionPane.showMessageDialog(null, "Cập nhật thất bại!!!", "title", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Cập nhật thất bại!!!", "Thông tin lỗi", JOptionPane.INFORMATION_MESSAGE);
                     return;
                 }
             }

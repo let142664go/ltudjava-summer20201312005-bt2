@@ -60,11 +60,9 @@ public class TaiKhoanDAO {
         Boolean result = true;
         try {
             Transaction tx = session.beginTransaction();
-            String hqlUpdate = "UPDATE public.\"TAI_KHOAN\" SET \"MAT_KHAU\"=':newPass' WHERE \"MA\" = ':uCode';";
-            int updatedEntities = session.createNativeQuery( hqlUpdate )
-                    .setString( "newPass", ps )
-                    .setString( "uCode", uc )
-                    .executeUpdate();
+            String hqlUpdate = "UPDATE public.\"TAI_KHOAN\" SET \"MAT_KHAU\"='" + ps + "' WHERE \"MA\" = '" + uc + "';";
+            int updatedEntities = session.createNativeQuery(hqlUpdate).executeUpdate();
+            result = 1 == updatedEntities;
             tx.commit();
         } catch (HibernateException ex) {
             // Log the exception
