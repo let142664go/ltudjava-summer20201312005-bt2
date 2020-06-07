@@ -30,31 +30,24 @@ public class ManHinhChinh {
         ActionListener button_Student_CLick = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Sinh vien");
-                frame.dispose();
-                new ManHinhChinh(uc);
+                new ManHinhSinhVien(uc);
             }
         };
         ActionListener button_Class_CLick = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Lop");
-                frame.dispose();
                 new ManHinhChinh(uc);
             }
         };
         ActionListener button_Subject_CLick = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Mon hoc");
-                frame.dispose();
                 new ManHinhChinh(uc);
             }
         };
         ActionListener button_Logout_CLick = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Đăng xuất");
                 frame.dispose();
                 new ManHinhDangNhap();
             }
@@ -62,7 +55,6 @@ public class ManHinhChinh {
         ActionListener button_ChangePass_CLick = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Đổi mật khẩu");
                 new ManHinhDoiMatKhau(uc);
             }
         };
