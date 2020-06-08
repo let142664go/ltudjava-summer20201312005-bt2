@@ -9,9 +9,12 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import daos.SinhVienDAO;
 import daos.TaiKhoanDAO;
+import pojo.SinhVien;
 
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ManHinhSinhVien {
@@ -39,14 +42,30 @@ public class ManHinhSinhVien {
                 try {
                     Scanner scanner = new Scanner(fc.getSelectedFile());
                     scanner.useDelimiter("\n");
+                    ArrayList<SinhVien> lst = new ArrayList<SinhVien>();
                     while (scanner.hasNext()) {
-                        System.out.println(scanner.next());
+                        SinhVien sv = new SinhVien();
+                        String line = scanner.next();
+                        String[] items = line.split(",");
+                        sv.setMa(items[0]);
+                        sv.setTen(items[1]);
+                        sv.setGioiTinh(items[2]);
+                        sv.setCMND(items[3]);
+                        lst.add(sv);
                     }
                     scanner.close();
+                    boolean rs = SinhVienDAO.themSinhVien(lst);
+                    if (rs) {
+                        JOptionPane.showMessageDialog(null, "Import thành công!!!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        frame.dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Import thất bại!!!", "Thông tin lỗi", JOptionPane.INFORMATION_MESSAGE);
+                        return;
+                    }
                 } catch (Exception ex) {
                     System.out.println(ex.getMessage());
-                } finally {
-                    frame.dispose();
+                // } finally {
+                //     frame.dispose();
                 }
             }
         };
@@ -54,7 +73,8 @@ public class ManHinhSinhVien {
         ActionListener button_Insert_CLick = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.dispose();
+                new DangKySinhVien(uc);
+                // frame.dispose();
             }
         };
 
