@@ -96,5 +96,5 @@ public class ManHinhDangNhap {
         loginButton.setBounds(10, 80, 80, 25);
         loginButton.addActionListener(button_Login_CLick);
         panel.add(loginButton);
-    }    
+    }
 }

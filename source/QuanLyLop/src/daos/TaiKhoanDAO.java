@@ -8,6 +8,7 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import pojo.SinhVien;
 import pojo.TaiKhoan;
 import resources.HibernateUtil;
 
@@ -63,6 +64,30 @@ public class TaiKhoanDAO {
             String hqlUpdate = "UPDATE public.\"TAI_KHOAN\" SET \"MAT_KHAU\"='" + ps + "' WHERE \"MA\" = '" + uc + "';";
             int updatedEntities = session.createNativeQuery(hqlUpdate).executeUpdate();
             result = 1 == updatedEntities;
+            tx.commit();
+        } catch (HibernateException ex) {
+            // Log the exception
+            System.err.println(ex);
+        } finally {
+            session.close();
+        }
+        return result;
+    }
+
+    public static boolean themTaiKhoan(ArrayList<SinhVien> svs) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Boolean result = true;
+        try {
+            Transaction tx = session.beginTransaction();
+            String keyInfo = "INSERT INTO public.\"TAI_KHOAN\"(\"MA\", \"MAT_KHAU\", \"LICENSE_ID\") VALUES (':masv', ':masv', 'SV');";
+            String hqlInsert = "";
+            for (int i = 0; i < svs.size(); i++) {
+                SinhVien sv = svs.get(i);
+                String row = keyInfo.replace(":masv", sv.getMa());
+                hqlInsert = hqlInsert+ row;
+            }
+            int updatedEntities = session.createNativeQuery(hqlInsert).executeUpdate();
+            result = updatedEntities > 0;
             tx.commit();
         } catch (HibernateException ex) {
             // Log the exception
