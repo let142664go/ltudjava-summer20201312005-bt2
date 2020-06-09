@@ -36,21 +36,28 @@ public class SinhVienDAO {
         return ds;
     }
 
-    public static boolean themSinhVien(ArrayList<SinhVien> svs) {
+    public static int themSinhVien(ArrayList<SinhVien> svs) {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        Boolean result = true;
+        int result = 1;
         try {
             Transaction tx = session.beginTransaction();
             String keyInfo = "INSERT INTO public.\"SINH_VIEN\"(\"MA\", \"TEN\", \"GIOI_TINH\", \"CMND\") VALUES (':masv', ':tensv', ':gioitinh', ':cmnd');";
             String hqlInsert = "";
             for (int i = 0; i < svs.size(); i++) {
                 SinhVien sv = svs.get(i);
+                String hql = "SELECT 1 FROM public.\"SINH_VIEN\" WHERE \"MA\" = '" + sv.getMa() + "'";
+                List<Object> rows = session.createSQLQuery(hql).list();
+                for (Object row : rows) {
+                    if ("1" == row.toString()) {
+                        return -1;
+                    }
+                }
                 String row = keyInfo.replace(":masv", sv.getMa()).replace(":tensv", sv.getTen()).replace(":gioitinh", sv.getGioiTinh()).replace(":cmnd", sv.getCMND());
                 hqlInsert = hqlInsert+ row;
             }
             int updatedEntities = session.createNativeQuery(hqlInsert).executeUpdate();
-            result = updatedEntities > 0;
-            if (!result) {
+            result = updatedEntities > 0 ? 0 : 1;
+            if (result == 0) {
                 return result;
             }
             result = TaiKhoanDAO.themTaiKhoan(svs);
@@ -61,6 +68,6 @@ public class SinhVienDAO {
         } finally {
             session.close();
         }
-        return result;
+        return result == 0 ? 0 : 1;
     }
 }

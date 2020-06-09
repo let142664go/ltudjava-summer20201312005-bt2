@@ -31,9 +31,15 @@ public class DangKySinhVien {
                 sv.setTen(nameText.getText());
                 sv.setGioiTinh(genText.getText());
                 sv.setCMND(identText.getText());
+                if (sv.getMa().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Mã sinh viên chưa được nhập!!!", "Thông tin lỗi", JOptionPane.INFORMATION_MESSAGE);
+                }
+                if (sv.getTen().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Tên sinh viên chưa được nhập!!!", "Thông tin lỗi", JOptionPane.INFORMATION_MESSAGE);
+                }
                 lst.add(sv);
-                boolean rs = SinhVienDAO.themSinhVien(lst);
-                if (rs) {
+                var rs = SinhVienDAO.themSinhVien(lst);
+                if (rs > 0) {
                     JOptionPane.showMessageDialog(null, "Lưu thành công!!!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                     frame.dispose();
                 } else {

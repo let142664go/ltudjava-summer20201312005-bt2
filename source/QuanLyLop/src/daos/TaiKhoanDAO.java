@@ -74,9 +74,9 @@ public class TaiKhoanDAO {
         return result;
     }
 
-    public static boolean themTaiKhoan(ArrayList<SinhVien> svs) {
+    public static int themTaiKhoan(ArrayList<SinhVien> svs) {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        Boolean result = true;
+        int result = 0;
         try {
             Transaction tx = session.beginTransaction();
             String keyInfo = "INSERT INTO public.\"TAI_KHOAN\"(\"MA\", \"MAT_KHAU\", \"LICENSE_ID\") VALUES (':masv', ':masv', 'SV');";
@@ -87,7 +87,7 @@ public class TaiKhoanDAO {
                 hqlInsert = hqlInsert+ row;
             }
             int updatedEntities = session.createNativeQuery(hqlInsert).executeUpdate();
-            result = updatedEntities > 0;
+            result = updatedEntities;
             tx.commit();
         } catch (HibernateException ex) {
             // Log the exception

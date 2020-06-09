@@ -54,8 +54,8 @@ public class ManHinhSinhVien {
                         lst.add(sv);
                     }
                     scanner.close();
-                    boolean rs = SinhVienDAO.themSinhVien(lst);
-                    if (rs) {
+                    var rs = SinhVienDAO.themSinhVien(lst);
+                    if (rs > 0) {
                         JOptionPane.showMessageDialog(null, "Import thành công!!!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                         frame.dispose();
                     } else {
