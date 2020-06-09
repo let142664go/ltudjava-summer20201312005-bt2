@@ -14,13 +14,13 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class ManHinhSinhVien {
+public class ManHinhLop {
     private String uc = "";
     private JFrame frame = new JFrame("Sinh viên");
-    private JButton importButton = new JButton("Import Sinh viên");
-    private JButton insertButton = new JButton("Thêm Sinh viên");
+    private JButton importButton = new JButton("Import Sinh viên vào lớp");
+    private JButton insertButton = new JButton("Thêm Sinh viên vào lớp");
 
-    public ManHinhSinhVien(String uCode) {
+    public ManHinhLop(String uCode) {
         uc = uCode;
         frame.setSize(300, 300);
         // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -70,19 +70,20 @@ public class ManHinhSinhVien {
         ActionListener button_Insert_CLick = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new DangKySinhVien(uc, false);
+                new DangKySinhVien(uc, true);
                 // frame.dispose();
             }
         };
 
-        importButton.setBounds(10, 30, 160, 30);
+        importButton.setBounds(10, 30, 200, 30);
         importButton.addActionListener(button_Import_CLick);
         panel.add(importButton);
 
-        insertButton.setBounds(10, 60, 160, 30);
+        insertButton.setBounds(10, 60, 200, 30);
         insertButton.addActionListener(button_Insert_CLick);
         panel.add(insertButton);
 
         frame.setVisible(true);
     }
+    
 }

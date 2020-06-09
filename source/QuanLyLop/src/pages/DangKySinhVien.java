@@ -15,11 +15,13 @@ import java.util.ArrayList;
 
 public class DangKySinhVien {
     private String uc = "";
-    private JFrame frame = new JFrame("Quản lý sinh viên");
+    private Boolean isClass = false;
+    private JFrame frame = null;
     private JTextField codeText = new JTextField(20);
     private JTextField nameText = new JTextField(100);
     private JTextField genText = new JTextField(20);
     private JTextField identText = new JTextField(20);
+    private JTextField classText = new JTextField(20);
 
     private ActionListener button_Login_CLick = new ActionListener() {
         @Override
@@ -31,6 +33,10 @@ public class DangKySinhVien {
                 sv.setTen(nameText.getText());
                 sv.setGioiTinh(genText.getText());
                 sv.setCMND(identText.getText());
+                String lop = classText.getText();
+                if (isClass && lop.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Mã lớp chưa được nhập!!!", "Thông tin lỗi", JOptionPane.INFORMATION_MESSAGE);
+                }
                 if (sv.getMa().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Mã sinh viên chưa được nhập!!!", "Thông tin lỗi", JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -54,9 +60,15 @@ public class DangKySinhVien {
         }
     };
 
-    public DangKySinhVien(String uCode){
+    public DangKySinhVien(String uCode, Boolean isCl){
         uc = uCode;
-        frame.setSize(350, 400);
+        isClass = isCl;
+        if (isCl) {
+            frame = new JFrame("Quản lý lớp");
+        } else {
+            frame = new JFrame("Quản lý sinh viên");
+        }
+        frame.setSize(350, 350);
         // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
 
@@ -108,8 +120,15 @@ public class DangKySinhVien {
         identText.setBounds(100, 110, 165, 25);
         panel.add(identText);
 
+        JLabel classLabel = new JLabel("Lớp");
+        classLabel.setBounds(10, 140, 80, 25);
+        panel.add(classLabel);
+        
+        classText.setBounds(100, 140, 165, 25);
+        panel.add(classText);
+
         JButton saveButton = new JButton("Lưu");
-        saveButton.setBounds(10, 140, 80, 25);
+        saveButton.setBounds(10, 170, 80, 25);
         saveButton.addActionListener(button_Login_CLick);
         panel.add(saveButton);
     }

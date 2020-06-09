@@ -36,7 +36,7 @@ public class ManHinhChinh {
         ActionListener button_Class_CLick = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new ManHinhChinh(uc);
+                new ManHinhLop(uc);
             }
         };
         ActionListener button_Subject_CLick = new ActionListener() {
