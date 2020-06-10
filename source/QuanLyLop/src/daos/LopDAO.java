@@ -9,23 +9,23 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import pojo.Lop;
-import pojo.SinhVien;
 import resources.HibernateUtil;
 
 public class LopDAO {
-    public static List<SinhVien> layDanhSachSinhVien(String lop) {
-        List<SinhVien> ds = new ArrayList<SinhVien>();
+    public static List<Lop> layDanhSachSinhVien(String lop) {
+        List<Lop> ds = new ArrayList<Lop>();
         Session session = HibernateUtil.getSessionFactory().openSession();
         try {
-            String hql = "SELECT \"MA\", \"TEN\", \"GIOI_TINH\", \"CMND\" FROM public.\"SINH_VIEN\"";
+            String hql = "SELECT \"SINH_VIEN_LOP\".\"MA_LOP\"";
+            hql += ", \"SINH_VIEN_LOP\".\"MA_SINH_VIEN\"";
+            hql += ", \"SINH_VIEN\".\"TEN\"";
+            hql += "FROM public.\"SINH_VIEN_LOP\" left join public.\"SINH_VIEN\"";
+            hql += "ON \"SINH_VIEN_LOP\".\"MA_SINH_VIEN\" = \"SINH_VIEN\".\"MA\"";
+            hql += "WHERE \"SINH_VIEN_LOP\".\"MA_LOP\" = '" + lop + "' OR '" + lop + "' = '';";
             SQLQuery query = session.createSQLQuery(hql);
             List<Object[]> rows = query.list();
             for (Object[] row : rows) {
-                SinhVien emp = new SinhVien();
-                emp.setMa(row[0].toString());
-                emp.setTen(row[1].toString());
-                emp.setGioiTinh(row[2].toString());
-                emp.setCMND(row[3].toString());
+                Lop emp = new Lop(row[1].toString(), row[2].toString(), row[0].toString(), 0, 0.0, 0.0, 0.0, 0.0);
                 ds.add(emp);
             }
         } catch (HibernateException ex) {
@@ -46,7 +46,8 @@ public class LopDAO {
             String hqlInsert = "";
             for (int i = 0; i < svs.size(); i++) {
                 Lop sv = svs.get(i);
-                String hql = "SELECT 1 FROM public.\"SINH_VIEN_LOP\" WHERE \"MA_SINH_VIEN\" = '" + sv.getMaSV() + "' AND \"MA_LOP\" = '" + sv.getMaLop() + "'";
+                String hql = "SELECT 1 FROM public.\"SINH_VIEN_LOP\" WHERE \"MA_SINH_VIEN\" = '" + sv.getMaSV()
+                        + "' AND \"MA_LOP\" = '" + sv.getMaLop() + "'";
                 List<Object> rows = session.createSQLQuery(hql).list();
                 for (Object row : rows) {
                     if ("1" == row.toString()) {
@@ -55,7 +56,7 @@ public class LopDAO {
                     }
                 }
                 String row = keyInfo.replace(":masv", sv.getMaSV()).replace(":malop", sv.getMaLop());
-                hqlInsert = hqlInsert+ row;
+                hqlInsert = hqlInsert + row;
             }
             int updatedEntities = session.createNativeQuery(hqlInsert).executeUpdate();
             result = updatedEntities > 0 ? 0 : 1;
