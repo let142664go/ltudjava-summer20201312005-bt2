@@ -49,6 +49,7 @@ public class SinhVienDAO {
                 List<Object> rows = session.createSQLQuery(hql).list();
                 for (Object row : rows) {
                     if ("1" == row.toString()) {
+                        tx.rollback();
                         return -1;
                     }
                 }
@@ -58,6 +59,7 @@ public class SinhVienDAO {
             int updatedEntities = session.createNativeQuery(hqlInsert).executeUpdate();
             result = updatedEntities > 0 ? 0 : 1;
             if (result == 0) {
+                tx.rollback();
                 return result;
             }
             result = TaiKhoanDAO.themTaiKhoan(svs);

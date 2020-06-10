@@ -5,6 +5,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import daos.SinhVienDAO;
 import daos.TaiKhoanDAO;
@@ -34,7 +35,8 @@ public class ManHinhSinhVien {
         ActionListener button_Import_CLick = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFileChooser fc = new JFileChooser();
+                JFileChooser fc = new JFileChooser(System.getProperty("user.dir"));
+                fc.addChoosableFileFilter(new FileNameExtensionFilter("*.csv", "csv"));
                 fc.showOpenDialog(importButton);
                 try {
                     Scanner scanner = new Scanner(fc.getSelectedFile());
