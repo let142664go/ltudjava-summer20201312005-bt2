@@ -12,6 +12,22 @@ import pojo.Lop;
 import resources.HibernateUtil;
 
 public class LopDAO {
+    public static Object[] layDanhSachLop() {
+        Object[] ds = {};
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            String hql = "SELECT DISTINCT \"MA_LOP\" FROM public.\"SINH_VIEN_LOP\" union select ''";
+            SQLQuery query = session.createSQLQuery(hql);
+            List<String> rows = query.list();
+            ds = rows.toArray();
+        } catch (HibernateException ex) {
+            // Log the exception
+            System.err.println(ex);
+        } finally {
+            session.close();
+        }
+        return ds;
+    }
     public static List<Lop> layDanhSachSinhVien(String lop) {
         List<Lop> ds = new ArrayList<Lop>();
         Session session = HibernateUtil.getSessionFactory().openSession();

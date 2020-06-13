@@ -1,6 +1,7 @@
 package pages;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -8,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import daos.LopDAO;
 import daos.SinhVienDAO;
 import pojo.SinhVien;
 
@@ -95,8 +97,11 @@ public class ManHinhLop {
         importButton.addActionListener(button_Import_CLick);
         panel.add(importButton);
 
-        searchText.setBounds(10, 40, 200, 30);
-        panel.add(searchText);
+        var petStrings = LopDAO.layDanhSachLop();
+        JComboBox petList = new JComboBox(petStrings);
+
+        petList.setBounds(10, 40, 200, 30);
+        panel.add(petList);
 
         insertButton.setBounds(210, 10, 200, 30);
         insertButton.addActionListener(button_Insert_CLick);
