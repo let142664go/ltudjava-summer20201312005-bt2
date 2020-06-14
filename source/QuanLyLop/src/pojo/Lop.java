@@ -42,6 +42,13 @@ public class Lop implements Serializable {
         this.ma_sinh_vien = ma;
     }
 
+    public String getTenSV() {
+        return this.ten_sinh_vien;
+    }
+
+    public void setTenSV(String ten) {
+        this.ten_sinh_vien = ten;
+    }
     public String getMaLop() {
         return this.ma_lop;
     }

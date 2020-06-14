@@ -23,7 +23,7 @@ public class ManHinhLop {
     private JButton importButton = new JButton("Import Sinh viên vào lớp");
     private JButton insertButton = new JButton("Thêm Sinh viên vào lớp");
     private JButton searchButton = new JButton("Xem danh sách lớp");
-    private JTextField searchText = new JTextField(20);
+    private JComboBox petList = new JComboBox();
 
     public ManHinhLop(String uCode) {
         uc = uCode;
@@ -77,7 +77,7 @@ public class ManHinhLop {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    String lop = searchText.getText();
+                    String lop = petList.getSelectedItem().toString();
                     new DanhSachLop(lop);
                 } catch (Exception ex) {
                     System.out.println(ex.getMessage());
@@ -98,8 +98,7 @@ public class ManHinhLop {
         panel.add(importButton);
 
         var petStrings = LopDAO.layDanhSachLop();
-        JComboBox petList = new JComboBox(petStrings);
-
+        petList = new JComboBox(petStrings);
         petList.setBounds(10, 40, 200, 30);
         panel.add(petList);
 

@@ -16,7 +16,7 @@ public class LopDAO {
         Object[] ds = {};
         Session session = HibernateUtil.getSessionFactory().openSession();
         try {
-            String hql = "SELECT DISTINCT \"MA_LOP\" FROM public.\"SINH_VIEN_LOP\" union select ''";
+            String hql = "SELECT DISTINCT \"MA_LOP\" FROM public.\"SINH_VIEN_LOP\" UNION SELECT ''";
             SQLQuery query = session.createSQLQuery(hql);
             List<String> rows = query.list();
             ds = rows.toArray();
@@ -35,9 +35,9 @@ public class LopDAO {
             String hql = "SELECT \"SINH_VIEN_LOP\".\"MA_LOP\"";
             hql += ", \"SINH_VIEN_LOP\".\"MA_SINH_VIEN\"";
             hql += ", \"SINH_VIEN\".\"TEN\"";
-            hql += "FROM public.\"SINH_VIEN_LOP\" left join public.\"SINH_VIEN\"";
-            hql += "ON \"SINH_VIEN_LOP\".\"MA_SINH_VIEN\" = \"SINH_VIEN\".\"MA\"";
-            hql += "WHERE \"SINH_VIEN_LOP\".\"MA_LOP\" = '" + lop + "' OR '" + lop + "' = '';";
+            hql += " FROM public.\"SINH_VIEN_LOP\" left join public.\"SINH_VIEN\"";
+            hql += " ON \"SINH_VIEN_LOP\".\"MA_SINH_VIEN\" = \"SINH_VIEN\".\"MA\"";
+            hql += " WHERE \"SINH_VIEN_LOP\".\"MA_LOP\" = '" + lop + "' OR '" + lop + "' = '';";
             SQLQuery query = session.createSQLQuery(hql);
             List<Object[]> rows = query.list();
             for (Object[] row : rows) {
