@@ -63,6 +63,10 @@ public class SinhVienDAO {
                 return result;
             }
             result = TaiKhoanDAO.themTaiKhoan(svs);
+            if (result == 0) {
+                tx.rollback();
+                return result;
+            }
             tx.commit();
         } catch (HibernateException ex) {
             // Log the exception

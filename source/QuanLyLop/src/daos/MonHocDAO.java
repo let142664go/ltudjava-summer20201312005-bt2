@@ -4,12 +4,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.HibernateException;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import pojo.MonLop;
 import resources.HibernateUtil;
 
 public class MonHocDAO {
+    public static List<MonLop> layTKB(String lop) {
+        List<MonLop> ds = new ArrayList<MonLop>();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            String hql = "SELECT \"LOP_MON_HOC\".\"MA_LOP\",";
+            hql += " \"LOP_MON_HOC\".\"MA_MON_HOC\",";
+            hql += " \"MON_HOC\".\"TEN\",";
+            hql += " \"LOP_MON_HOC\".\"PHONG_HOC\"";
+            hql += " FROM public.\"LOP_MON_HOC\" left join public.\"MON_HOC\"";
+            hql += " ON \"LOP_MON_HOC\".\"MA_MON_HOC\" = \"MON_HOC\".\"MA\"";
+            hql += " WHERE \"LOP_MON_HOC\".\"MA_LOP\" = '" + lop + "' OR '" + lop + "' = ''";
+            hql += " ORDER BY \"LOP_MON_HOC\".\"MA_LOP\";";
+            SQLQuery query = session.createSQLQuery(hql);
+            List<Object[]> rows = query.list();
+            for (Object[] row : rows) {
+                MonLop tkb = new MonLop(row[0].toString(), row[1].toString(), row[2].toString(), row[3].toString());
+                ds.add(tkb);
+            }
+        } catch (HibernateException ex) {
+            // Log the exception
+            System.err.println(ex);
+        } finally {
+            session.close();
+        }
+        return ds;
+    }
     public static int themThoiKhoaBieu(ArrayList<MonLop> svs) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         int result = 1;

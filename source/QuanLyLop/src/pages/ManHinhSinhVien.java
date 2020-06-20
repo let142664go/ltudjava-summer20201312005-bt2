@@ -6,9 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
 import daos.SinhVienDAO;
-import daos.TaiKhoanDAO;
 import pojo.SinhVien;
 
 import java.awt.event.*;
