@@ -52,27 +52,22 @@ public class MonHocDAO {
                 MonLop sv = svs.get(i);
                 String hql = "SELECT '1' FROM public.\"MON_HOC\" WHERE \"MA\" = '" + sv.getMaMonHoc() + "'";
                 List<String> rows = session.createSQLQuery(hql).list();
-                for (String row : rows) {
-                    String rowMonHoc = "";
-                    if ("1" == row) {
-                        rowMonHoc = keyUpdateMonHoc.replace(":mamonhoc", sv.getMaMonHoc()).replace(":tenmonhoc", sv.getTenMonHoc());
-                    } else {
-                        rowMonHoc = keyInsertMonHoc.replace(":mamonhoc", sv.getMaMonHoc()).replace(":tenmonhoc", sv.getTenMonHoc());
-                    }
-                    hqlInsertMonHoc = hqlInsertMonHoc+ rowMonHoc;
+                String rowMonHoc = "";
+                if (rows.size() > 0) {
+                    rowMonHoc = keyUpdateMonHoc.replace(":mamonhoc", sv.getMaMonHoc()).replace(":tenmonhoc", sv.getTenMonHoc());
+                } else {
+                    rowMonHoc = keyInsertMonHoc.replace(":mamonhoc", sv.getMaMonHoc()).replace(":tenmonhoc", sv.getTenMonHoc());
                 }
+                hqlInsertMonHoc = hqlInsertMonHoc+ rowMonHoc;
                 hql = "SELECT '1' FROM public.\"LOP_MON_HOC\" WHERE \"MA_LOP\" = '" + sv.getMaMonHoc() + "' AND \"MA_MON_HOC\"='"+ sv.getTenMonHoc()+"'";
                 rows = session.createSQLQuery(hql).list();
-                for (String row : rows) {
-                    String rowQuery = "";
-                    if ("1" == row) {
-                        rowQuery = keyInsertLopMonHoc.replace(":malop", sv.getMaLop()).replace(":mamonhoc", sv.getMaMonHoc()).replace(":phonghoc", sv.getPhongHoc());
-                    } else {
-                        rowQuery = keyUpdateLopMonHoc.replace(":malop", sv.getMaLop()).replace(":mamonhoc", sv.getMaMonHoc()).replace(":phonghoc", sv.getPhongHoc());
-                    }
-                    hqlInsert = hqlInsert+ rowQuery;
+                String rowQuery = "";
+                if (rows.size() > 0) {
+                    rowQuery = keyInsertLopMonHoc.replace(":malop", sv.getMaLop()).replace(":mamonhoc", sv.getMaMonHoc()).replace(":phonghoc", sv.getPhongHoc());
+                } else {
+                    rowQuery = keyUpdateLopMonHoc.replace(":malop", sv.getMaLop()).replace(":mamonhoc", sv.getMaMonHoc()).replace(":phonghoc", sv.getPhongHoc());
                 }
-            }
+                hqlInsert = hqlInsert+ rowQuery;
             int updatedEntities = session.createNativeQuery(hqlInsert).executeUpdate();
             result = updatedEntities;
             if (result == 0) {

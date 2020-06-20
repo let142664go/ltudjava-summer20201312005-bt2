@@ -11,6 +11,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import daos.LopDAO;
 import daos.SinhVienDAO;
+import pojo.Lop;
 import pojo.SinhVien;
 
 import java.awt.event.*;
@@ -23,6 +24,7 @@ public class ManHinhLop {
     private JButton importButton = new JButton("Import Sinh viên vào lớp");
     private JButton insertButton = new JButton("Thêm Sinh viên vào lớp");
     private JButton searchButton = new JButton("Xem danh sách lớp");
+    private JButton importScoreButton = new JButton("Import bảng điểm");
     private JComboBox petList = new JComboBox();
 
     public ManHinhLop(String uCode) {
@@ -73,6 +75,110 @@ public class ManHinhLop {
             }
         };
 
+        ActionListener button_ImportScore_CLick = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String lop = petList.getSelectedItem().toString();
+                if (lop.isEmpty() || lop.isBlank()) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng nhập lớp!!!", "Thông báo",
+                            JOptionPane.INFORMATION_MESSAGE);
+                    return;
+                }
+                JFileChooser fc = new JFileChooser(System.getProperty("user.dir"));
+                fc.addChoosableFileFilter(new FileNameExtensionFilter("*.csv", "csv"));
+                fc.showOpenDialog(importButton);
+                try {
+                    Scanner scanner = new Scanner(fc.getSelectedFile());
+                    scanner.useDelimiter("\n");
+                    ArrayList<Lop> lst = new ArrayList<Lop>();
+                    while (scanner.hasNext()) {
+                        String line = scanner.next();
+                        String[] items = line.split(",");
+                        if (items.length != 5) {
+                            JOptionPane.showMessageDialog(null, "Format file không đúng!!!", "Thông tin lỗi",
+                                    JOptionPane.INFORMATION_MESSAGE);
+                            return;
+                        }
+                        // kiem tra bat buoc
+                        if (items[0].toString().isEmpty()) {
+                            JOptionPane.showMessageDialog(null, "Mã sinh viên không được rỗng!!!", "Thông tin lỗi",
+                                    JOptionPane.INFORMATION_MESSAGE);
+                            return;
+                        }
+                        // kiem tra length
+                        if (items[0].toString().length() > 20) {
+                            JOptionPane.showMessageDialog(null, "Mã sinh viên không vượt quá 20 ký tự!!!",
+                                    "Thông tin lỗi", JOptionPane.INFORMATION_MESSAGE);
+                            return;
+                        }
+                        String diemGK = items[1].toString();
+                        if (!isDouble(diemGK)) {
+                            JOptionPane.showMessageDialog(null, "Điểm GK không đúng format!!!", "Thông tin lỗi",
+                                    JOptionPane.INFORMATION_MESSAGE);
+                            return;
+                        } else {
+                            if (Double.parseDouble(diemGK) > 10) {
+                                JOptionPane.showMessageDialog(null, "Điểm GK không được vượt quá 10!!!",
+                                        "Thông tin lỗi", JOptionPane.INFORMATION_MESSAGE);
+                                return;
+                            }
+                        }
+                        String diemCK = items[2].toString();
+                        if (!isDouble(diemCK)) {
+                            JOptionPane.showMessageDialog(null, "Điểm CK không đúng format!!!", "Thông tin lỗi",
+                                    JOptionPane.INFORMATION_MESSAGE);
+                            return;
+                        } else {
+                            if (Double.parseDouble(diemCK) > 10) {
+                                JOptionPane.showMessageDialog(null, "Điểm CK không được vượt quá 10!!!",
+                                        "Thông tin lỗi", JOptionPane.INFORMATION_MESSAGE);
+                                return;
+                            }
+                        }
+                        String diemKhac = items[3].toString();
+                        if (!isDouble(diemKhac)) {
+                            JOptionPane.showMessageDialog(null, "Điểm khác không đúng format!!!", "Thông tin lỗi",
+                                    JOptionPane.INFORMATION_MESSAGE);
+                            return;
+                        } else {
+                            if (Double.parseDouble(diemKhac) > 10) {
+                                JOptionPane.showMessageDialog(null, "Điểm khác không được vượt quá 10!!!",
+                                        "Thông tin lỗi", JOptionPane.INFORMATION_MESSAGE);
+                                return;
+                            }
+                        }
+                        String diemTK = items[4].toString();
+                        if (!isDouble(diemTK)) {
+                            JOptionPane.showMessageDialog(null, "Điểm tổng không đúng format!!!", "Thông tin lỗi",
+                                    JOptionPane.INFORMATION_MESSAGE);
+                            return;
+                        } else {
+                            if (Double.parseDouble(diemTK) > 10) {
+                                JOptionPane.showMessageDialog(null, "Điểm tổng không được vượt quá 10!!!",
+                                        "Thông tin lỗi", JOptionPane.INFORMATION_MESSAGE);
+                                return;
+                            }
+                        }
+                        Lop sv = new Lop(items[0].toString(), "", lop, 0, Double.parseDouble(diemGK),
+                                Double.parseDouble(diemCK), Double.parseDouble(diemKhac), Double.parseDouble(diemTK));
+                        lst.add(sv);
+                    }
+                    scanner.close();
+                    var rs = LopDAO.themDiem(lst);
+                    if (rs > 0) {
+                        JOptionPane.showMessageDialog(null, "Import thành công!!!", "Thông báo",
+                                JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Import thất bại!!!", "Thông tin lỗi",
+                                JOptionPane.INFORMATION_MESSAGE);
+                        return;
+                    }
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+                }
+            }
+        };
+
         ActionListener button_Search_CLick = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -110,7 +216,19 @@ public class ManHinhLop {
         searchButton.addActionListener(button_Search_CLick);
         panel.add(searchButton);
 
+        importScoreButton.setBounds(10, 70, 200, 30);
+        importScoreButton.addActionListener(button_ImportScore_CLick);
+        panel.add(importScoreButton);
+
         frame.setVisible(true);
     }
 
+    private static boolean isDouble(String s) {
+        try {
+            Double.parseDouble(s);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
 }

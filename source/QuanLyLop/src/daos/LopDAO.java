@@ -28,6 +28,7 @@ public class LopDAO {
         }
         return ds;
     }
+
     public static List<Lop> layDanhSachSinhVien(String lop) {
         List<Lop> ds = new ArrayList<Lop>();
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -90,4 +91,52 @@ public class LopDAO {
         }
         return result == 0 ? 0 : 1;
     }
+
+    public static int themDiem(ArrayList<Lop> lst) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        int result = 1;
+        try {
+            Transaction tx = session.beginTransaction();
+            String keyInsertLop = "INSERT INTO public.\"SINH_VIEN_LOP\"(\"MA_SINH_VIEN\",\"MA_LOP\",\"TRANG_THAI\",\"DIEM_GK\",\"DIEM_CK\",\"DIEM_KHAC\",\"DIEM_TONG\")";
+            keyInsertLop += " VALUES (':masinhvien',':malop',0,:diemgk,:diemck,:diemkhac,:diemtong);";
+            String keyUpdateLop = "UPDATE public.\"SINH_VIEN_LOP\" SET \"DIEM_GK\"=:diemgk,\"DIEM_CK\"=:diemck,\"DIEM_KHAC\"=:diemkhac,\"DIEM_TONG\"=:diemtong";
+            keyUpdateLop += " WHERE \"MA_SINH_VIEN\" = ':masinhvien' AND \"MA_LOP\" = ':malop';";
+            String hqlLop = "";
+            for (int i = 0; i < lst.size(); i++) {
+                Lop sv = lst.get(i);
+                String hql = "SELECT '1' FROM public.\"SINH_VIEN_LOP\" WHERE \"MA_SINH_VIEN\" = '" + sv.getMaSV() + "' AND \"MA_LOP\" = '"+ sv.getMaLop() + "';";
+                List<String> rows = session.createSQLQuery(hql).list();
+                String rowMonHoc = "";
+                if (rows.size() > 0) {
+                    rowMonHoc = keyUpdateLop.replace(":masinhvien", sv.getMaSV())
+                        .replace(":malop", sv.getMaLop())
+                        .replace(":diemgk", sv.getDiemGK().toString())
+                        .replace(":diemck", sv.getDiemCK().toString())
+                        .replace(":diemkhac", sv.getDiemKhac().toString())
+                        .replace(":diemtong", sv.getDiemTong().toString());
+                } else {
+                    rowMonHoc = keyInsertLop.replace(":masinhvien", sv.getMaSV())
+                        .replace(":malop", sv.getMaLop())
+                        .replace(":diemgk", sv.getDiemGK().toString())
+                        .replace(":diemck", sv.getDiemCK().toString())
+                        .replace(":diemkhac", sv.getDiemKhac().toString())
+                        .replace(":diemtong", sv.getDiemTong().toString());
+                }
+                hqlLop = hqlLop+ rowMonHoc;
+            }
+            int updatedEntities = session.createNativeQuery(hqlLop).executeUpdate();
+            result = updatedEntities;
+            if (result == 0) {
+                tx.rollback();
+                return result;
+            }
+            tx.commit();
+        } catch (HibernateException ex) {
+            // Log the exception
+            System.err.println(ex);
+        } finally {
+            session.close();
+        }
+        return result == 0 ? 0 : 1;
+	}
 }
