@@ -13,7 +13,7 @@ import pojo.SinhVien;
 import java.awt.event.*;
 import java.util.ArrayList;
 
-public class DangKySinhVien {
+public class ManHinhDangKySinhVien {
     private String uc = "";
     private Boolean isClass = false;
     private JFrame frame = null;
@@ -65,7 +65,7 @@ public class DangKySinhVien {
         }
     };
 
-    public DangKySinhVien(String uCode, Boolean isCl) {
+    public ManHinhDangKySinhVien(String uCode, Boolean isCl) {
         uc = uCode;
         isClass = isCl;
         if (isCl) {

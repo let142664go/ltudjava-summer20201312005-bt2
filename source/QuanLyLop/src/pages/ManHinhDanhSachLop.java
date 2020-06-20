@@ -8,9 +8,9 @@ import javax.swing.table.DefaultTableModel;
 import daos.LopDAO;
 import pojo.Lop;
 
-public class DanhSachLop {
+public class ManHinhDanhSachLop {
     private JFrame frame = new JFrame("Danh sách lớp");
-    DanhSachLop(String lop) {
+    ManHinhDanhSachLop(String lop) {
         frame.setSize(450, 450);
         // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);

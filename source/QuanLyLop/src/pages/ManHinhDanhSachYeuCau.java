@@ -1,26 +1,13 @@
 package pages;
-
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
-import javax.swing.DefaultCellEditor;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 
-public class DanhSachYeuCau {
+public class ManHinhDanhSachYeuCau {
     private JFrame frame = new JFrame("Danh sách yêu cầu");
-    DanhSachYeuCau(String lop) {
+    ManHinhDanhSachYeuCau(String lop) {
         frame.setSize(450, 450);
         // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
