@@ -37,6 +37,7 @@ public class MonHocDAO {
         }
         return ds;
     }
+
     public static int themThoiKhoaBieu(ArrayList<MonLop> svs) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         int result = 1;
@@ -54,33 +55,39 @@ public class MonHocDAO {
                 List<String> rows = session.createSQLQuery(hql).list();
                 String rowMonHoc = "";
                 if (rows.size() > 0) {
-                    rowMonHoc = keyUpdateMonHoc.replace(":mamonhoc", sv.getMaMonHoc()).replace(":tenmonhoc", sv.getTenMonHoc());
+                    rowMonHoc = keyUpdateMonHoc.replace(":mamonhoc", sv.getMaMonHoc()).replace(":tenmonhoc",
+                            sv.getTenMonHoc());
                 } else {
-                    rowMonHoc = keyInsertMonHoc.replace(":mamonhoc", sv.getMaMonHoc()).replace(":tenmonhoc", sv.getTenMonHoc());
+                    rowMonHoc = keyInsertMonHoc.replace(":mamonhoc", sv.getMaMonHoc()).replace(":tenmonhoc",
+                            sv.getTenMonHoc());
                 }
-                hqlInsertMonHoc = hqlInsertMonHoc+ rowMonHoc;
-                hql = "SELECT '1' FROM public.\"LOP_MON_HOC\" WHERE \"MA_LOP\" = '" + sv.getMaMonHoc() + "' AND \"MA_MON_HOC\"='"+ sv.getTenMonHoc()+"'";
+                hqlInsertMonHoc = hqlInsertMonHoc + rowMonHoc;
+                hql = "SELECT '1' FROM public.\"LOP_MON_HOC\" WHERE \"MA_LOP\" = '" + sv.getMaMonHoc()
+                        + "' AND \"MA_MON_HOC\"='" + sv.getTenMonHoc() + "'";
                 rows = session.createSQLQuery(hql).list();
                 String rowQuery = "";
                 if (rows.size() > 0) {
-                    rowQuery = keyInsertLopMonHoc.replace(":malop", sv.getMaLop()).replace(":mamonhoc", sv.getMaMonHoc()).replace(":phonghoc", sv.getPhongHoc());
+                    rowQuery = keyInsertLopMonHoc.replace(":malop", sv.getMaLop())
+                            .replace(":mamonhoc", sv.getMaMonHoc()).replace(":phonghoc", sv.getPhongHoc());
                 } else {
-                    rowQuery = keyUpdateLopMonHoc.replace(":malop", sv.getMaLop()).replace(":mamonhoc", sv.getMaMonHoc()).replace(":phonghoc", sv.getPhongHoc());
+                    rowQuery = keyUpdateLopMonHoc.replace(":malop", sv.getMaLop())
+                            .replace(":mamonhoc", sv.getMaMonHoc()).replace(":phonghoc", sv.getPhongHoc());
                 }
-                hqlInsert = hqlInsert+ rowQuery;
-            int updatedEntities = session.createNativeQuery(hqlInsert).executeUpdate();
-            result = updatedEntities;
-            if (result == 0) {
-                tx.rollback();
-                return result;
+                hqlInsert = hqlInsert + rowQuery;
+                int updatedEntities = session.createNativeQuery(hqlInsert).executeUpdate();
+                result = updatedEntities;
+                if (result == 0) {
+                    tx.rollback();
+                    return result;
+                }
+                updatedEntities = session.createNativeQuery(hqlInsertMonHoc).executeUpdate();
+                result = updatedEntities;
+                if (result == 0) {
+                    tx.rollback();
+                    return result;
+                }
+                tx.commit();
             }
-            updatedEntities = session.createNativeQuery(hqlInsertMonHoc).executeUpdate();
-            result = updatedEntities;
-            if (result == 0) {
-                tx.rollback();
-                return result;
-            }
-            tx.commit();
         } catch (HibernateException ex) {
             // Log the exception
             System.err.println(ex);
@@ -89,5 +96,5 @@ public class MonHocDAO {
         }
         return result == 0 ? 0 : 1;
     }
-    
+
 }

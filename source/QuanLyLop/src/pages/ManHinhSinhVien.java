@@ -70,7 +70,7 @@ public class ManHinhSinhVien {
         ActionListener button_Insert_CLick = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new DangKySinhVien(uc, false);
+                new ManHinhDangKySinhVien(uc, false);
                 // frame.dispose();
             }
         };

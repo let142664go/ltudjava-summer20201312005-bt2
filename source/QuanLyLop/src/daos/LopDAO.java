@@ -36,13 +36,20 @@ public class LopDAO {
             String hql = "SELECT \"SINH_VIEN_LOP\".\"MA_LOP\"";
             hql += ", \"SINH_VIEN_LOP\".\"MA_SINH_VIEN\"";
             hql += ", \"SINH_VIEN\".\"TEN\"";
+            hql += ", CASE WHEN \"SINH_VIEN_LOP\".\"DIEM_GK\" IS NULL THEN 0 ELSE \"SINH_VIEN_LOP\".\"DIEM_GK\" END";
+            hql += ", CASE WHEN \"SINH_VIEN_LOP\".\"DIEM_CK\" IS NULL THEN 0 ELSE \"SINH_VIEN_LOP\".\"DIEM_CK\" END";
+            hql += ", CASE WHEN \"SINH_VIEN_LOP\".\"DIEM_KHAC\" IS NULL THEN 0 ELSE \"SINH_VIEN_LOP\".\"DIEM_KHAC\" END";
+            hql += ", CASE WHEN \"SINH_VIEN_LOP\".\"DIEM_TONG\" IS NULL THEN 0 ELSE \"SINH_VIEN_LOP\".\"DIEM_TONG\" END";
+            hql += ", CASE WHEN \"SINH_VIEN_LOP\".\"DIEM_TONG\" > 5 THEN 'Đậu' ELSE 'Rớt' END";
             hql += " FROM public.\"SINH_VIEN_LOP\" left join public.\"SINH_VIEN\"";
             hql += " ON \"SINH_VIEN_LOP\".\"MA_SINH_VIEN\" = \"SINH_VIEN\".\"MA\"";
             hql += " WHERE \"SINH_VIEN_LOP\".\"MA_LOP\" = '" + lop + "' OR '" + lop + "' = '';";
             SQLQuery query = session.createSQLQuery(hql);
             List<Object[]> rows = query.list();
             for (Object[] row : rows) {
-                Lop emp = new Lop(row[1].toString(), row[2].toString(), row[0].toString(), 0, 0.0, 0.0, 0.0, 0.0);
+                Lop emp = new Lop(row[1].toString(), row[2].toString(), row[0].toString(), 0, 
+                Double.parseDouble(row[3].toString()), Double.parseDouble(row[4].toString()), Double.parseDouble(row[5].toString()),
+                Double.parseDouble(row[6].toString()), row[7].toString());
                 ds.add(emp);
             }
         } catch (HibernateException ex) {

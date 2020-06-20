@@ -25,6 +25,7 @@ public class ManHinhLop {
     private JButton insertButton = new JButton("Thêm Sinh viên vào lớp");
     private JButton searchButton = new JButton("Xem danh sách lớp");
     private JButton importScoreButton = new JButton("Import bảng điểm");
+    private JButton searchScoreButton = new JButton("Xem bảng điểm");
     private JComboBox petList = new JComboBox();
 
     public ManHinhLop(String uCode) {
@@ -160,7 +161,7 @@ public class ManHinhLop {
                             }
                         }
                         Lop sv = new Lop(items[0].toString(), "", lop, 0, Double.parseDouble(diemGK),
-                                Double.parseDouble(diemCK), Double.parseDouble(diemKhac), Double.parseDouble(diemTK));
+                                Double.parseDouble(diemCK), Double.parseDouble(diemKhac), Double.parseDouble(diemTK), "");
                         lst.add(sv);
                     }
                     scanner.close();
@@ -184,7 +185,24 @@ public class ManHinhLop {
             public void actionPerformed(ActionEvent e) {
                 try {
                     String lop = petList.getSelectedItem().toString();
-                    new DanhSachLop(lop);
+                    new ManHinhDanhSachLop(lop);
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+                }
+            }
+        };
+
+        ActionListener button_SearchScore_CLick = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String lop = petList.getSelectedItem().toString();
+                    if (lop.isEmpty() || lop.isBlank()) {
+                        JOptionPane.showMessageDialog(null, "Vui lòng nhập lớp!!!", "Thông báo",
+                                JOptionPane.INFORMATION_MESSAGE);
+                        return;
+                    }
+                    new ManHinhDanhSachDiem(lop);
                 } catch (Exception ex) {
                     System.out.println(ex.getMessage());
                 }
@@ -194,7 +212,7 @@ public class ManHinhLop {
         ActionListener button_Insert_CLick = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new DangKySinhVien(uc, true);
+                new ManHinhDangKySinhVien(uc, true);
                 // frame.dispose();
             }
         };
@@ -219,6 +237,10 @@ public class ManHinhLop {
         importScoreButton.setBounds(10, 70, 200, 30);
         importScoreButton.addActionListener(button_ImportScore_CLick);
         panel.add(importScoreButton);
+
+        searchScoreButton.setBounds(210, 70, 200, 30);
+        searchScoreButton.addActionListener(button_SearchScore_CLick);
+        panel.add(searchScoreButton);
 
         frame.setVisible(true);
     }

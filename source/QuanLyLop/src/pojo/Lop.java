@@ -11,6 +11,7 @@ public class Lop implements Serializable {
     private String ma_sinh_vien;
     private String ten_sinh_vien;
     private String ma_lop;
+    private String dau;
     private Integer trang_thai;
     private Double diem_gk;
     private Double diem_ck;
@@ -22,7 +23,7 @@ public class Lop implements Serializable {
     }
 
     public Lop(String ma_sinh_vien, String ten_sinh_vien, String ma_lop, Integer trang_thai, Double diem_gk, Double diem_ck,
-            Double diem_khac, Double diem_tong) {
+            Double diem_khac, Double diem_tong, String dau) {
         this.ma_sinh_vien = ma_sinh_vien;
         this.ten_sinh_vien = ten_sinh_vien;
         this.ma_lop = ma_lop;
@@ -31,7 +32,15 @@ public class Lop implements Serializable {
         this.diem_ck = diem_ck;
         this.diem_khac = diem_khac;
         this.diem_tong = diem_tong;
+        this.dau = dau;
+    }
 
+    public String getDau() {
+        return this.dau;
+    }
+
+    public void setDau(String ma) {
+        this.dau = ma;
     }
 
     public String getMaSV() {

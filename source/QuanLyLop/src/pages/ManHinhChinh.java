@@ -1,18 +1,9 @@
 package pages;
 
 import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.Scanner;
-
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
-import daos.MonHocDAO;
-import pojo.MonLop;
 
 public class ManHinhChinh {
     private JFrame frame = new JFrame("Màn hình chính");
@@ -60,7 +51,7 @@ public class ManHinhChinh {
         ActionListener button_Request_CLick = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new DanhSachYeuCau(uc);
+                new ManHinhDanhSachYeuCau(uc);
             }
         };
         ActionListener button_Subject_CLick = new ActionListener() {
