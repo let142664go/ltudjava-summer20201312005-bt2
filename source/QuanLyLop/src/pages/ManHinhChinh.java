@@ -23,6 +23,8 @@ public class ManHinhChinh {
     private JButton logoutButton = new JButton("Đăng xuất");
     // Creating Doi Mat Khau button
     private JButton changePassButton = new JButton("Đổi mật khẩu");
+    // Creating Xem Diem Khau button
+    private JButton searchScoreButton = new JButton("Xem điểm");
 
     public ManHinhChinh(String ucode) {
         uc = ucode;
@@ -43,6 +45,12 @@ public class ManHinhChinh {
             }
         };
         ActionListener button_Class_CLick = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ManHinhLop(uc);
+            }
+        };
+        ActionListener button_Score_CLick = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new ManHinhLop(uc);
@@ -74,25 +82,31 @@ public class ManHinhChinh {
             }
         };
 
-        studentButton.setBounds(10, 20, 80, 25);
-        studentButton.addActionListener(button_Student_CLick);
-        panel.add(studentButton);
-
-        classButton.setBounds(10, 50, 80, 25);
-        classButton.addActionListener(button_Class_CLick);
-        panel.add(classButton);
-
-        subjectButton.setBounds(10, 80, 80, 25);
-        subjectButton.addActionListener(button_Subject_CLick);
-        panel.add(subjectButton);
-
-        TKBButton.setBounds(10, 110, 80, 25);
-        TKBButton.addActionListener(button_TKB_CLick);
-        panel.add(TKBButton);
-
-        requestButton.setBounds(10, 140, 80, 25);
-        requestButton.addActionListener(button_Request_CLick);
-        panel.add(requestButton);
+        if (uc.equals("giaovu")) {
+            studentButton.setBounds(10, 20, 80, 25);
+            studentButton.addActionListener(button_Student_CLick);
+            panel.add(studentButton);
+    
+            classButton.setBounds(10, 50, 80, 25);
+            classButton.addActionListener(button_Class_CLick);
+            panel.add(classButton);
+    
+            subjectButton.setBounds(10, 80, 80, 25);
+            subjectButton.addActionListener(button_Subject_CLick);
+            panel.add(subjectButton);
+    
+            TKBButton.setBounds(10, 110, 80, 25);
+            TKBButton.addActionListener(button_TKB_CLick);
+            panel.add(TKBButton);
+    
+            requestButton.setBounds(10, 140, 80, 25);
+            requestButton.addActionListener(button_Request_CLick);
+            panel.add(requestButton);
+        } else {
+            searchScoreButton.setBounds(10, 140, 80, 25);
+            searchScoreButton.addActionListener(button_Score_CLick);
+            panel.add(searchScoreButton);
+        }
 
         logoutButton.setBounds(100, 20, 80, 25);
         logoutButton.addActionListener(button_Logout_CLick);

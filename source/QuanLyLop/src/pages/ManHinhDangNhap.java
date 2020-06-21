@@ -19,10 +19,15 @@ public class ManHinhDangNhap {
         @Override
         public void actionPerformed(ActionEvent e) {
             String uCo = userText.getText();
+            if (uCo.isEmpty() || uCo.isBlank()) {
+                JOptionPane.showMessageDialog(null, "Vui lòng nhập tài khoản", "title", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
             String uPw = passText.getText();
             String uc = TaiKhoanDAO.kiemTraTaiKhoan(uCo, uPw);
-            if (!uCo.equals(uc)) {
+            if (!uCo.equals(uc) || uc.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Tài khoản hoặc mật khẩu không đúng", "title", JOptionPane.INFORMATION_MESSAGE);
+                return;
             } else {
                 frame.dispose();
                 new ManHinhChinh(uc);

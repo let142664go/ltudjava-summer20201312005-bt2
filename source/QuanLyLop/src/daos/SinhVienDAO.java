@@ -39,33 +39,37 @@ public class SinhVienDAO {
     public static int themSinhVien(ArrayList<SinhVien> svs) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         int result = 1;
+        ArrayList<SinhVien> tks = new ArrayList<SinhVien>();
         try {
             Transaction tx = session.beginTransaction();
-            String keyInfo = "INSERT INTO public.\"SINH_VIEN\"(\"MA\", \"TEN\", \"GIOI_TINH\", \"CMND\") VALUES (':masv', ':tensv', ':gioitinh', ':cmnd');";
+            String keyInsInfo = "INSERT INTO public.\"SINH_VIEN\"(\"MA\", \"TEN\", \"GIOI_TINH\", \"CMND\") VALUES (':masv', ':tensv', ':gioitinh', ':cmnd');";
+            String keyUpdInfo = "UPDATE public.\"SINH_VIEN\" SET \"TEN\" = ':tensv', \"GIOI_TINH\" = ':gioitinh', \"CMND\" = ':cmnd' WHERE \"MA\" = ':masv';";
             String hqlInsert = "";
             for (int i = 0; i < svs.size(); i++) {
                 SinhVien sv = svs.get(i);
                 String hql = "SELECT 1 FROM public.\"SINH_VIEN\" WHERE \"MA\" = '" + sv.getMa() + "'";
                 List<Object> rows = session.createSQLQuery(hql).list();
-                for (Object row : rows) {
-                    if ("1" == row.toString()) {
-                        tx.rollback();
-                        return -1;
-                    }
+                if (rows.size() > 0) {
+                    String row = keyUpdInfo.replace(":masv", sv.getMa()).replace(":tensv", sv.getTen()).replace(":gioitinh", sv.getGioiTinh()).replace(":cmnd", sv.getCMND());
+                    hqlInsert = hqlInsert+ row;
+                } else {
+                    String row = keyInsInfo.replace(":masv", sv.getMa()).replace(":tensv", sv.getTen()).replace(":gioitinh", sv.getGioiTinh()).replace(":cmnd", sv.getCMND());
+                    hqlInsert = hqlInsert+ row;
+                    tks.add(sv);
                 }
-                String row = keyInfo.replace(":masv", sv.getMa()).replace(":tensv", sv.getTen()).replace(":gioitinh", sv.getGioiTinh()).replace(":cmnd", sv.getCMND());
-                hqlInsert = hqlInsert+ row;
             }
             int updatedEntities = session.createNativeQuery(hqlInsert).executeUpdate();
-            result = updatedEntities > 0 ? 0 : 1;
+            result = updatedEntities > 0 ? 1 : 0;
             if (result == 0) {
                 tx.rollback();
                 return result;
             }
-            result = TaiKhoanDAO.themTaiKhoan(svs);
-            if (result == 0) {
-                tx.rollback();
-                return result;
+            if (tks.size() > 0) {
+                result = TaiKhoanDAO.themTaiKhoan(tks);
+                if (result == 0) {
+                    tx.rollback();
+                    return result;
+                }
             }
             tx.commit();
         } catch (HibernateException ex) {
