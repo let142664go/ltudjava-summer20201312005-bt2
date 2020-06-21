@@ -37,14 +37,17 @@ public class ManHinhDangKySinhVien {
                 if (isClass && lop.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Mã lớp chưa được nhập!!!", "Thông tin lỗi",
                             JOptionPane.INFORMATION_MESSAGE);
+                    return;
                 }
                 if (sv.getMa().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Mã sinh viên chưa được nhập!!!", "Thông tin lỗi",
                             JOptionPane.INFORMATION_MESSAGE);
+                            return;
                 }
                 if (sv.getTen().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Tên sinh viên chưa được nhập!!!", "Thông tin lỗi",
                             JOptionPane.INFORMATION_MESSAGE);
+                            return;
                 }
                 lst.add(sv);
                 var rs = SinhVienDAO.themSinhVien(lst);
