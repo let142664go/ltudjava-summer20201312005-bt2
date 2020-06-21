@@ -5,7 +5,7 @@
 -- Dumped from database version 12.2
 -- Dumped by pg_dump version 12.2
 
--- Started on 2020-06-17 22:38:19
+-- Started on 2020-06-21 09:04:20
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -48,6 +48,44 @@ CREATE TABLE public."MON_HOC" (
 
 
 ALTER TABLE public."MON_HOC" OWNER TO postgres;
+
+--
+-- TOC entry 208 (class 1259 OID 24833)
+-- Name: PHUC_KHAO_D; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."PHUC_KHAO_D" (
+    "MA" character varying(20) NOT NULL,
+    "STT" integer NOT NULL,
+    "MA_SINH_VIEN" character varying(20),
+    "MA_MON_HOC" character varying(20),
+    "DOI_DIEM_GK" integer,
+    "DIEM_GK" numeric,
+    "DOI_DIEM_CK" integer,
+    "DIEM_CK" numeric,
+    "DOI_DIEM_KHAC" integer,
+    "DIEM_KHAC" numeric,
+    "DOI_DIEM_TONG" integer,
+    "DIEM_TONG" numeric
+);
+
+
+ALTER TABLE public."PHUC_KHAO_D" OWNER TO postgres;
+
+--
+-- TOC entry 207 (class 1259 OID 24828)
+-- Name: PHUC_KHAO_H; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."PHUC_KHAO_H" (
+    "MA" character varying(20) NOT NULL,
+    "NGAY_BAT_DAU" date,
+    "NGAY_KET_THUC" date,
+    "TRANG_THAI" integer
+);
+
+
+ALTER TABLE public."PHUC_KHAO_H" OWNER TO postgres;
 
 --
 -- TOC entry 204 (class 1259 OID 24809)
@@ -97,7 +135,7 @@ CREATE TABLE public."TAI_KHOAN" (
 ALTER TABLE public."TAI_KHOAN" OWNER TO postgres;
 
 --
--- TOC entry 2703 (class 2606 OID 24803)
+-- TOC entry 2712 (class 2606 OID 24803)
 -- Name: LOP_MON_HOC LOP_MON_HOC_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -106,7 +144,7 @@ ALTER TABLE ONLY public."LOP_MON_HOC"
 
 
 --
--- TOC entry 2705 (class 2606 OID 24808)
+-- TOC entry 2714 (class 2606 OID 24808)
 -- Name: MON_HOC MON_HOC_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -115,7 +153,25 @@ ALTER TABLE ONLY public."MON_HOC"
 
 
 --
--- TOC entry 2711 (class 2606 OID 24827)
+-- TOC entry 2724 (class 2606 OID 24840)
+-- Name: PHUC_KHAO_D PHUC_KHAO_D_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."PHUC_KHAO_D"
+    ADD CONSTRAINT "PHUC_KHAO_D_pkey" PRIMARY KEY ("MA", "STT");
+
+
+--
+-- TOC entry 2722 (class 2606 OID 24832)
+-- Name: PHUC_KHAO_H PHUC_KHAO_H_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."PHUC_KHAO_H"
+    ADD CONSTRAINT "PHUC_KHAO_H_pkey" PRIMARY KEY ("MA");
+
+
+--
+-- TOC entry 2720 (class 2606 OID 24827)
 -- Name: SINH_VIEN_LOP SINH_VIEN_LOP_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -124,7 +180,7 @@ ALTER TABLE ONLY public."SINH_VIEN_LOP"
 
 
 --
--- TOC entry 2707 (class 2606 OID 24813)
+-- TOC entry 2716 (class 2606 OID 24813)
 -- Name: SINH_VIEN SINH_VIEN_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -133,7 +189,7 @@ ALTER TABLE ONLY public."SINH_VIEN"
 
 
 --
--- TOC entry 2709 (class 2606 OID 24818)
+-- TOC entry 2718 (class 2606 OID 24818)
 -- Name: TAI_KHOAN TAI_KHOAN_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -141,7 +197,8 @@ ALTER TABLE ONLY public."TAI_KHOAN"
     ADD CONSTRAINT "TAI_KHOAN_pkey" PRIMARY KEY ("MA");
 
 INSERT INTO public."TAI_KHOAN"( "MA", "MAT_KHAU", "LICENSE_ID") VALUES ('giaovu', 'giaovu', 'GV');
--- Completed on 2020-06-17 22:38:21
+
+-- Completed on 2020-06-21 09:04:20
 
 --
 -- PostgreSQL database dump complete
